@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Series Op-Amp: Functional Blocks and Applications</title>
+<style>
+:root{--navy:#10233f;--blue:#1769aa;--cyan:#dff4fb;--ink:#1c2b3a;--muted:#5d6b7a;--paper:#f4f7fb;--line:#d8e1ec;--gold:#f4b942;--green:#147d54;--red:#b42318}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.62 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(130deg,#10233f,#1769aa);color:white;padding:42px max(22px,calc((100% - 1120px)/2)) 36px}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.78rem;font-weight:800;color:#bce8ff}
+h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.12;margin:.4rem 0 1rem}
+header p{max-width:800px;color:#e7f4ff;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}.meta span{border:1px solid #ffffff55;background:#ffffff12;border-radius:99px;padding:5px 12px;font-size:.86rem}
+nav{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:10px max(16px,calc((100% - 1120px)/2));display:flex;gap:8px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--navy);text-decoration:none;font-size:.88rem;font-weight:700;padding:7px 10px;border-radius:8px}nav a:hover{background:var(--cyan)}
+main{max-width:1120px;margin:28px auto;padding:0 18px 60px}
+section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,30px);margin:18px 0;box-shadow:0 5px 20px #17365d08;scroll-margin-top:70px}
+h2{font-size:1.55rem;line-height:1.25;color:var(--navy);margin:0 0 14px}h3{color:#164f80;margin:22px 0 8px;font-size:1.12rem}p{margin:8px 0 13px}
+.lead{font-size:1.08rem;color:#34485c}.callout{border-left:4px solid var(--gold);background:#fff8e7;padding:13px 16px;border-radius:0 9px 9px 0;margin:15px 0}.note{background:#edf7ff;border:1px solid #c9e6fa;padding:13px 15px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}.tile{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fbfdff}.tile strong{display:block;color:var(--blue);font-size:1.02rem;margin-bottom:5px}
+table{border-collapse:collapse;width:100%;margin:13px 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:#edf4fb;color:var(--navy)}tr:nth-child(even) td{background:#fbfdff}
+.diagram{overflow-x:auto;background:#fbfdff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:14px 0}.diagram svg{display:block;min-width:600px;width:100%;height:auto}.caption{color:var(--muted);font-size:.88rem;margin-top:5px}
+.formula{background:#10233f;color:#fff;padding:15px 18px;border-radius:10px;font:1.05rem ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;margin:10px 0}.formula small{display:block;color:#c6e3ff;font: .82rem system-ui;margin-top:5px}
+details{border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:9px 0;background:#fcfdff}summary{cursor:pointer;font-weight:750;color:var(--navy)}details p{margin:10px 0 3px}
+button{border:0;background:var(--blue);color:white;font-weight:750;padding:10px 16px;border-radius:9px;cursor:pointer;margin:5px 7px 5px 0}button:hover{filter:brightness(.93)}button.secondary{background:#e8eef5;color:var(--navy)}.question{padding:15px 0;border-bottom:1px solid var(--line)}.question:last-child{border-bottom:0}.question p{font-weight:750}.choices{display:grid;gap:7px}.choices label{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);padding:9px 11px;border-radius:8px;cursor:pointer}.choices label:hover{background:#f3f9ff}.feedback{display:none;padding:10px 12px;border-radius:8px;margin-top:9px}.feedback.good{display:block;background:#e8f7ef;color:#105d3c}.feedback.bad{display:block;background:#fff0ef;color:#8e2019}.score{font-size:1.1rem;font-weight:800;margin:12px 0}
+footer{text-align:center;color:var(--muted);padding:25px}
+@media(max-width:600px){header{padding-top:30px}nav a{font-size:.82rem;padding:6px 8px}section{border-radius:12px}table{font-size:.86rem}th,td{padding:8px}}
+@media print{body{background:white;font-size:11pt}nav,button{display:none!important}main{max-width:none;margin:0;padding:0}section{box-shadow:none;break-inside:avoid;border:1px solid #bbb;margin:12px 0;padding:18px}header{background:white;color:black;padding:20px 0}header p,.eyebrow{color:#333}.meta span{border-color:#aaa;background:white}.formula{background:#eee;color:#111}.formula small{color:#333}details{break-inside:avoid}a{color:black;text-decoration:none}}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">Analog Electronics • Operational Amplifier</div>
+ <h1>Series Op-Amp: Functional Blocks and Applications</h1>
+ <p>A student-friendly guide to the internal signal path of an operational amplifier, what each stage does, and how op-amps are used in practical circuits.</p>
+ <div class="meta"><span>B.E./B.Tech ECE</span><span>Core concepts</span><span>Worked examples</span><span>Interactive quizzes</span></div>
+</header>
+<nav aria-label="Main navigation">
+ <a href="#overview">Overview</a><a href="#blocks">Functional blocks</a><a href="#working">Working</a><a href="#equations">Equations</a><a href="#examples">Examples</a><a href="#applications">Applications</a><a href="#gate">GATE practice</a><a href="#interview">Interview</a><a href="#quiz">Quiz</a><a href="#revision">Revision</a>
+</nav>
+<main>
+<section id="overview">
+<h2>1. Introduction and learning objectives</h2>
+<p class="lead">An operational amplifier (op-amp) is a high-gain differential amplifier. Its output responds to the difference between its non-inverting input (+) and inverting input (−). A practical op-amp IC contains several internal stages connected in sequence.</p>
+<div class="grid">
+ <div class="tile"><strong>Understand the blocks</strong>Identify the differential input stage, voltage-gain stage, level shifter, and output stage.</div>
+ <div class="tile"><strong>Trace the signal</strong>Follow a small differential input through the internal amplifier stages.</div>
+ <div class="tile"><strong>Use key equations</strong>Calculate closed-loop gain for common op-amp circuits.</div>
+ <div class="tile"><strong>Connect to applications</strong>Recognize amplifiers, buffers, adders, filters, integrators, and comparators.</div>
+</div>
+<h3>Prerequisites</h3>
+<p>Voltage, current, resistance, Ohm’s law, Kirchhoff’s laws, basic transistor operation, feedback, and RC circuits.</p>
+<h3>Important terminology</h3>
+<table><tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Differential input</td><td>The voltage difference between the + and − terminals: \(v_d=v_+-v_-\).</td></tr>
+<tr><td>Open-loop gain</td><td>Gain with no feedback; usually very large.</td></tr>
+<tr><td>Negative feedback</td><td>A fraction of the output is returned to the inverting input to set predictable closed-loop behaviour.</td></tr>
+<tr><td>Input impedance</td><td>How much the input resists drawing current; ideally infinite.</td></tr>
+<tr><td>Output impedance</td><td>Effective impedance seen looking back into the output; ideally zero.</td></tr>
+<tr><td>Common-mode signal</td><td>A signal that appears equally at both inputs and ideally is rejected.</td></tr></table>
+<div class="callout"><b>Terminology note:</b> “Series op-amp” is not a universally standard name for one particular circuit. This page interprets it as the <b>series-connected internal functional blocks of an op-amp</b>. If a course uses “series op-amp” to mean a specific circuit, its circuit diagram or IC number is needed to identify it exactly.</div>
+</section>
+
+<section id="blocks">
+<h2>2. Functional blocks and signal flow</h2>
+<p>The stages are connected in sequence. A simplified internal architecture is shown below; actual implementations vary by op-amp design.</p>
+<div class="diagram">
+<svg viewBox="0 0 920 300" role="img" aria-label="Op amp functional block diagram">
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1769aa"/></marker></defs>
+<text x="20" y="46" font-size="16" fill="#10233f" font-weight="bold">v+</text><text x="20" y="92" font-size="16" fill="#10233f" font-weight="bold">v−</text>
+<path d="M55 42 H90 V60 H112 M55 88 H90 V78 H112" fill="none" stroke="#1769aa" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="115" y="35" width="165" height="72" rx="10" fill="#dff4fb" stroke="#1769aa" stroke-width="2"/>
+<text x="197" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#10233f">Differential</text><text x="197" y="82" text-anchor="middle" font-size="15" font-weight="bold" fill="#10233f">input stage</text>
+<path d="M280 71 H320" stroke="#1769aa" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="325" y="35" width="165" height="72" rx="10" fill="#e9e5ff" stroke="#7865c5" stroke-width="2"/>
+<text x="407" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#33276e">Voltage-gain</text><text x="407" y="82" text-anchor="middle" font-size="15" font-weight="bold" fill="#33276e">stage</text>
+<path d="M490 71 H530" stroke="#1769aa" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="535" y="35" width="150" height="72" rx="10" fill="#fff0d1" stroke="#bd7a00" stroke-width="2"/>
+<text x="610" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#704800">Level</text><text x="610" y="82" text-anchor="middle" font-size="15" font-weight="bold" fill="#704800">shifter</text>
+<path d="M685 71 H725" stroke="#1769aa" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="730" y="35" width="150" height="72" rx="10" fill="#e2f6e9" stroke="#258451" stroke-width="2"/>
+<text x="805" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#145c35">Output</text><text x="805" y="82" text-anchor="middle" font-size="15" font-weight="bold" fill="#145c35">stage</text>
+<path d="M880 71 H905" stroke="#1769aa" stroke-width="2" marker-end="url(#arr)"/><text x="852" y="135" font-size="15" fill="#10233f" font-weight="bold">vout</text>
+<path d="M197 108 V165 H805 V108" fill="none" stroke="#9aabc0" stroke-width="1.5" stroke-dasharray="5 5"/>
+<text x="500" y="190" text-anchor="middle" font-size="14" fill="#5d6b7a">Simplified functional sequence — not a transistor-level schematic</text>
+<text x="115" y="235" font-size="14" fill="#10233f">High input impedance</text><text x="325" y="235" font-size="14" fill="#10233f">Most voltage gain</text><text x="535" y="235" font-size="14" fill="#10233f">DC level correction</text><text x="730" y="235" font-size="14" fill="#10233f">Load drive</text>
+</svg>
+<div class="caption">Illustrative block diagram. Internal architecture differs among op-amp families.</div>
+</div>
+<table>
+<tr><th>Block</th><th>Main function</th><th>Why it matters</th></tr>
+<tr><td>1. Differential input stage</td><td>Amplifies the difference between the two inputs and rejects common-mode signals.</td><td>Provides high input impedance and good common-mode rejection.</td></tr>
+<tr><td>2. Intermediate voltage-gain stage</td><td>Provides most of the open-loop voltage gain.</td><td>Makes tiny input differences capable of controlling the output.</td></tr>
+<tr><td>3. Level shifter</td><td>Shifts the DC level between stages.</td><td>Helps establish a suitable output quiescent level, often near 0 V for a zero differential input in appropriate designs.</td></tr>
+<tr><td>4. Output stage</td><td>Drives the load with relatively low output impedance.</td><td>Supplies load current while isolating earlier stages from the load.</td></tr>
+<tr><td>Bias/current sources</td><td>Set transistor operating currents throughout the circuit.</td><td>Support stable operating points and performance.</td></tr></table>
+</section>
+
+<section id="working">
+<h2>3. Working principle: step by step</h2>
+<ol>
+<li><b>Apply two input voltages.</b> The input stage senses \(v_d=v_+-v_-\), not simply one input alone.</li>
+<li><b>Convert the difference into an internal signal.</b> The differential pair steers current according to the input difference.</li>
+<li><b>Build voltage gain.</b> The intermediate stage amplifies the signal substantially.</li>
+<li><b>Adjust the DC level.</b> The level-shifting circuitry establishes a suitable bias level for the output stage.</li>
+<li><b>Drive the load.</b> The output stage supplies or sinks current within the IC’s voltage and current limits.</li>
+<li><b>Use feedback for predictable operation.</b> In most linear applications, negative feedback sets the gain and improves linearity.</li>
+</ol>
+<h3>Ideal op-amp assumptions with negative feedback</h3>
+<div class="formula">i+ ≈ i− ≈ 0 &nbsp;&nbsp; and &nbsp;&nbsp; v+ ≈ v−
+<small>Valid approximation for an ideal op-amp operating linearly with effective negative feedback; it is not a universal rule in open-loop/comparator operation.</small></div>
+<h3>Open-loop versus closed-loop</h3>
+<table><tr><th>Feature</th><th>Open-loop</th><th>Closed-loop with negative feedback</th></tr>
+<tr><td>Gain</td><td>Extremely high, poorly controlled</td><td>Set mainly by external components</td></tr>
+<tr><td>Typical use</td><td>Comparator-like operation</td><td>Linear amplification, filtering, integration</td></tr>
+<tr><td>Output</td><td>Often saturates for a tiny input difference</td><td>Can remain linear if within limits</td></tr>
+<tr><td>Bandwidth</td><td>Very small for high open-loop gain</td><td>Usually wider at lower closed-loop gain</td></tr></table>
+<div class="note"><b>Practical limits:</b> Real op-amps have finite gain and bandwidth, input offset voltage, input bias currents, slew-rate limits, noise, finite common-mode range, and output swing/current limits. Check the datasheet.</div>
+</section>
+
+<section id="equations">
+<h2>4. Essential equations</h2>
+<h3>Basic open-loop relation</h3>
+<div class="formula">vout = Aol (v+ − v−)<small>Aol is open-loop voltage gain (dimensionless). Actual output is limited by the supply rails and output-stage capability.</small></div>
+<h3>Inverting amplifier</h3>
+<div class="formula">Av = vout / vin = −Rf / Rin<small>Ideal op-amp, negative feedback, and operation away from saturation. The minus sign means 180° phase inversion.</small></div>
+<h3>Non-inverting amplifier</h3>
+<div class="formula">Av = vout / vin = 1 + (Rf / Rg)<small>Output is in phase with input. Input impedance is ideally very high.</small></div>
+<h3>Voltage follower (buffer)</h3>
+<div class="formula">Av ≈ 1 &nbsp;&nbsp; ⇒ &nbsp;&nbsp; vout ≈ vin<small>Useful for impedance matching; it does not ideally amplify voltage.</small></div>
+<h3>Summing amplifier (inverting)</h3>
+<div class="formula">vout = −Rf (v1/R1 + v2/R2 + … + vn/Rn)<small>For equal input resistors R and feedback resistor Rf: vout = −(Rf/R)(v1+v2+…+vn).</small></div>
+<h3>Decibels and bandwidth</h3>
+<div class="formula">Gain (dB) = 20 log10 |Av|<small>For voltage gain, use the magnitude. A gain magnitude of 10 corresponds to 20 dB.</small></div>
+<div class="formula">For a dominant-pole op-amp: GBW ≈ |Acl| × fBW<small>Approximate gain-bandwidth product; check the datasheet and stability conditions.</small></div>
+</section>
+
+<section id="examples">
+<h2>5. Solved numerical examples</h2>
+<h3>Example 1 — Inverting amplifier</h3>
+<p><b>Given:</b> \(R_{in}=10\,k\Omega\), \(R_f=100\,k\Omega\), \(v_{in}=0.20\,V\). Find gain and output.</p>
+<ol><li>Use \(A_v=-R_f/R_{in}\).</li><li>\(A_v=-100/10=-10\).</li><li>\(v_{out}=A_vv_{in}=-10(0.20)=-2.0\,V\).</li></ol>
+<div class="note"><b>Answer:</b> Gain = −10 V/V; output = −2.0 V, assuming the op-amp can swing to that voltage.</div>
+<h3>Example 2 — Non-inverting amplifier</h3>
+<p><b>Given:</b> \(R_f=30\,k\Omega\), \(R_g=10\,k\Omega\), \(v_{in}=0.5\,V\).</p>
+<ol><li>\(A_v=1+R_f/R_g\).</li><li>\(A_v=1+30/10=4\).</li><li>\(v_{out}=4(0.5)=2.0\,V\).</li></ol>
+<div class="note"><b>Answer:</b> Gain = 4; output = 2.0 V, provided the supply and output swing allow it.</div>
+<h3>Example 3 — GATE-style gain and dB</h3>
+<p><b>Given:</b> An ideal non-inverting amplifier has \(R_f=40\,k\Omega\) and \(R_g=10\,k\Omega\). Find its voltage gain and gain in dB.</p>
+<ol><li>\(A_v=1+40/10=5\).</li><li>\(G_{dB}=20\log_{10}(5)\).</li><li>\(G_{dB}\approx 13.98\,dB\).</li></ol>
+<div class="note"><b>Answer:</b> Voltage gain = 5 V/V; gain ≈ 14 dB.</div>
+</section>
+
+<section id="applications">
+<h2>6. Applications and industry relevance</h2>
+<div class="grid">
+<div class="tile"><strong>Signal amplification</strong>Amplifies small sensor signals before digitization, subject to noise and input-range limits.</div>
+<div class="tile"><strong>Voltage follower</strong>Buffers a high-impedance sensor so a later stage does not load it heavily.</div>
+<div class="tile"><strong>Summing amplifier</strong>Combines weighted signals in audio mixers, analog computation, and conditioning circuits.</div>
+<div class="tile"><strong>Active filters</strong>With resistors and capacitors, forms low-pass, high-pass, and band-pass filters.</div>
+<div class="tile"><strong>Integrator / differentiator</strong>Performs time-domain analog operations; practical circuits add components to control drift and noise.</div>
+<div class="tile"><strong>Comparator / threshold detection</strong>Compares signals in some simple applications, although a dedicated comparator is often better for switching.</div>
+<div class="tile"><strong>Instrumentation and measurement</strong>Op-amps form parts of sensor front ends, bridge interfaces, and measurement systems.</div>
+<div class="tile"><strong>Control systems</strong>Used in error amplifiers, feedback controllers, and analog signal-conditioning loops.</div>
+</div>
+<h3>Practical design checklist</h3>
+<ul><li>Supply voltage and input common-mode range.</li><li>Output swing and required load current.</li><li>Gain-bandwidth product and slew rate.</li><li>Input offset, bias current, noise, and temperature drift.</li><li>Capacitive-load stability, decoupling, grounding, and PCB layout.</li><li>For safety-critical or patient-connected equipment, use appropriate isolation and standards-compliant design.</li></ul>
+<h3>Advantages and limitations</h3>
+<table><tr><th>Advantages</th><th>Limitations</th></tr><tr><td>Flexible circuits using a small number of external components.</td><td>Finite bandwidth, gain, slew rate, and output current.</td></tr><tr><td>Negative feedback gives predictable gain.</td><td>May oscillate if feedback/layout or capacitive loads are not handled correctly.</td></tr><tr><td>High input impedance and low output impedance are achievable.</td><td>Input/output voltage ranges depend on the selected device and supply.</td></tr></table>
+</section>
+
+<section id="gate">
+<h2>7. GATE-style practice: 10 questions</h2>
+<p>These are original practice questions, not claimed to be actual previous-year GATE questions. Select an answer and reveal the explanation.</p>
+<div id="gateQuestions"></div>
+<button type="button" onclick="revealGate()">Reveal all answers</button>
+<button type="button" class="secondary" onclick="hideGate()">Hide all answers</button>
+</section>
+
+<section id="interview">
+<h2>8. Core electronics interview questions</h2>
+<details><summary>1. Why is the input stage differential?</summary><p>It responds to the difference between two input voltages and ideally rejects a voltage common to both inputs. This improves common-mode noise rejection.</p></details>
+<details><summary>2. Which block provides most of the voltage gain?</summary><p>The intermediate voltage-gain stage typically provides most of the op-amp’s open-loop voltage gain.</p></details>
+<details><summary>3. What is the purpose of a level shifter?</summary><p>It shifts the DC operating level between internal stages so the output stage can operate around its intended quiescent point.</p></details>
+<details><summary>4. Why does an op-amp need an output stage?</summary><p>It provides lower output impedance and the current needed to drive a load, within device limits.</p></details>
+<details><summary>5. What is virtual short?</summary><p>With effective negative feedback and linear operation, the two input voltages are approximately equal. They are not physically shorted together.</p></details>
+<details><summary>6. Why does an open-loop op-amp often saturate?</summary><p>Its open-loop gain is very high, so even a small differential input can demand an output beyond the available supply range.</p></details>
+<details><summary>7. How would you troubleshoot an output stuck at a supply rail?</summary><p>Check input polarity and common-mode range, feedback wiring, supply pins, reference/ground, output loading, and whether the requested output exceeds the available swing.</p></details>
+<details><summary>8. What is gain-bandwidth product?</summary><p>For a common dominant-pole op-amp, closed-loop gain magnitude multiplied by bandwidth is approximately constant over the applicable range.</p></details>
+<details><summary>9. Why can a circuit oscillate after adding a capacitor at the output?</summary><p>Capacitive loading can change loop phase and reduce phase margin. Use a device suited to the load or a datasheet-recommended isolation method.</p></details>
+<details><summary>10. When is an instrumentation amplifier preferred?</summary><p>When accurate differential measurement, high input impedance, and strong common-mode rejection are required; it may contain several op-amp stages internally.</p></details>
+<details><summary>11. What should be checked before selecting an op-amp for a sensor?</summary><p>Input common-mode range, offset, bias current, noise, bandwidth, supply range, output swing, current, and temperature performance.</p></details>
+<details><summary>12. Why use a voltage follower?</summary><p>It provides near-unity voltage gain while isolating a high-impedance source from a lower-impedance load.</p></details>
+</section>
+
+<section id="quiz">
+<h2>9. Interactive topic quiz</h2>
+<p>Answer all 10 questions, then choose <b>Check answers</b>. Unanswered questions count as incorrect. You can reset and try again.</p>
+<form id="quizForm"><div id="quizQuestions"></div>
+<button type="button" onclick="checkQuiz()">Check answers</button><button type="button" class="secondary" onclick="resetQuiz()">Reset quiz</button>
+<div id="quizScore" class="score" aria-live="polite"></div></form>
+</section>
+
+<section id="revision">
+<h2>10. Quick revision sheet</h2>
+<h3>Remember the block order</h3>
+<div class="formula">Differential input → Voltage-gain stage → Level shifter → Output stage</div>
+<h3>Key points</h3>
+<ul><li>The differential input stage senses \(v_+-v_-\).</li><li>The intermediate stage gives most of the voltage gain.</li><li>The level shifter sets a suitable DC level between stages.</li><li>The output stage drives the load.</li><li>Negative feedback makes closed-loop gain depend mainly on external components.</li><li>“Virtual short” is an approximation only under linear negative-feedback conditions.</li><li>Always verify supply range, common-mode range, output swing, bandwidth, and load capability.</li></ul>
+<h3>Common errors</h3>
+<table><tr><th>Common mistake</th><th>Correction</th></tr><tr><td>Assuming input terminals are physically connected.</td><td>They are approximately at equal voltage under suitable negative feedback, but input current is ideally near zero.</td></tr><tr><td>Forgetting the minus sign in an inverting amplifier.</td><td>\(A_v=-R_f/R_{in}\); output is inverted.</td></tr><tr><td>Assuming output can reach the supply rails.</td><td>Output swing depends on the op-amp and load; rail-to-rail behaviour is device-specific.</td></tr><tr><td>Using an op-amp as a comparator without checking suitability.</td><td>Dedicated comparators are generally designed for faster switching and defined output behaviour.</td></tr></table>
+<div class="callout"><b>One-line memory aid:</b> <i>Input compares, gain amplifies, level shifts, output drives.</i></div>
+</section>
+</main>
+<footer>Standalone offline learning page • Analog Electronics • Review the selected op-amp datasheet before real circuit implementation.</footer>
+<script>
+const gateData = [
+{d:"Easy",q:"Which block first senses the difference between the two input terminals?",o:["Output stage","Differential input stage","Level shifter","Load resistor"],a:1,e:"The differential input stage responds to v+ − v− and ideally rejects common-mode input."},
+{d:"Easy",q:"Which internal block typically provides most of the open-loop voltage gain?",o:["Output stage","Bias pin","Intermediate voltage-gain stage","Level shifter only"],a:2,e:"The intermediate voltage-gain stage usually contributes most of the open-loop gain."},
+{d:"Easy",q:"What is the main purpose of the output stage?",o:["Set input differential voltage to zero","Drive the load with lower output impedance","Create the input signal","Remove the supply rails"],a:1,e:"The output stage supplies/sinks load current within the IC's limits and reduces effective output impedance."},
+{d:"Moderate",q:"For an ideal inverting amplifier, Rin = 5 kΩ and Rf = 25 kΩ. What is Av?",o:["+5","−5","+0.2","−0.2"],a:1,e:"Av = −Rf/Rin = −25/5 = −5."},
+{d:"Moderate",q:"A non-inverting amplifier has Rf = 20 kΩ and Rg = 5 kΩ. Its ideal gain is:",o:["4","5","−4","1.25"],a:1,e:"Av = 1 + Rf/Rg = 1 + 20/5 = 5."},
+{d:"Moderate",q:"A voltage follower ideally has voltage gain:",o:["0","−1","+1","Infinite"],a:2,e:"Its output is fed back to the inverting input; Av is approximately +1."},
+{d:"Moderate",q:"Why is a level shifter included in many op-amp architectures?",o:["To provide the input signal source","To adjust DC level between stages","To eliminate the need for power","To set every resistor to zero"],a:1,e:"It adjusts internal DC level so the next stage, including the output stage, is biased appropriately."},
+{d:"Difficult",q:"An amplifier has voltage gain magnitude 10. The voltage gain in dB is approximately:",o:["10 dB","20 dB","−20 dB","100 dB"],a:1,e:"20 log10(10) = 20 dB."},
+{d:"Difficult",q:"The ideal virtual-short approximation is most appropriate when the op-amp is:",o:["Open-loop and saturated","Operating linearly with effective negative feedback","Unpowered","Driven beyond its common-mode range"],a:1,e:"Negative feedback and linear operation make v+ approximately equal to v−. Saturation invalidates this assumption."},
+{d:"Difficult",q:"A sensor has high source impedance. Which op-amp configuration is commonly useful to reduce loading?",o:["Voltage follower buffer","Open-loop amplifier at maximum gain","Output short circuit","Comparator with no reference"],a:0,e:"A voltage follower ideally presents high input impedance and low output impedance, reducing loading of the sensor."}
+];
+const quizData = [
+{q:"What does an op-amp amplify at its inputs?",o:["Sum only in all cases","Difference between input voltages","Supply voltage only","Output current only"],a:1,e:"An op-amp's basic open-loop relation is vout = Aol(v+ − v−), within output limits."},
+{q:"Which is the usual sequence of simplified functional blocks?",o:["Output → input → level shift → gain","Differential input → gain → level shift → output","Level shift → output → input → gain","Gain → output → input → level shift"],a:1,e:"This is the simplified internal signal path; real architectures vary."},
+{q:"What is the ideal input current into either input terminal?",o:["Infinite","Equal to output current","Zero","Always 1 mA"],a:2,e:"The ideal op-amp has infinite input impedance, so input current is zero."},
+{q:"For an inverting amplifier, Rin = 10 kΩ and Rf = 50 kΩ. Gain is:",o:["+5","−5","+0.2","−0.2"],a:1,e:"Av = −Rf/Rin = −50/10 = −5."},
+{q:"For a non-inverting amplifier, Rf = 9 kΩ and Rg = 1 kΩ. Gain is:",o:["9","−10","10","1.1"],a:2,e:"Av = 1 + Rf/Rg = 1 + 9 = 10."},
+{q:"Which block mainly supplies load current?",o:["Differential input stage","Output stage","Level shifter","Input bias network only"],a:1,e:"The output stage is designed to drive the load, within output current and voltage limits."},
+{q:"A gain magnitude of 100 equals approximately:",o:["20 dB","40 dB","100 dB","10 dB"],a:1,e:"20 log10(100) = 40 dB."},
+{q:"What is a common use of negative feedback?",o:["Make gain more predictable","Guarantee infinite bandwidth","Remove the need for power supplies","Allow unlimited output current"],a:0,e:"Negative feedback sets closed-loop gain and usually improves linearity, within bandwidth and stability limits."},
+{q:"Why should an op-amp's input common-mode range be checked?",o:["It determines resistor colour","Inputs outside the range may cause incorrect operation","It makes gain exactly zero","It removes offset voltage"],a:1,e:"An input voltage outside the permitted common-mode range can cause distortion or malfunction."},
+{q:"Which configuration is useful as an impedance buffer?",o:["Voltage follower","Inverting amplifier with no feedback","Open-loop comparator in saturation","Differentiator in every case"],a:0,e:"A voltage follower has near-unity gain, high input impedance, and low output impedance."}
+];
+function renderQuestions(data, containerId, prefix, gate=false){
+ const root=document.getElementById(containerId);
+ root.innerHTML=data.map((x,i)=>`<div class="question" id="${prefix}${i}"><p>${i+1}. ${x.q} ${gate?`<span style="color:#68798b;font-size:.82rem">[${x.d}]</span>`:""}</p><div class="choices">${x.o.map((opt,j)=>`<label><input type="${gate?"radio":"radio"}" name="${prefix}${i}" value="${j}"> <span>${String.fromCharCode(65+j)}. ${opt}</span></label>`).join("")}</div><div class="feedback" id="${prefix}fb${i}"></div></div>`).join("");
+}
+function revealGate(){gateData.forEach((x,i)=>{const f=document.getElementById("gatefb"+i);f.className="feedback good";f.innerHTML=`<b>Correct answer: ${String.fromCharCode(65+x.a)}. ${x.o[x.a]}</b><br>${x.e}`;});}
+function hideGate(){gateData.forEach((x,i)=>{const f=document.getElementById("gatefb"+i);f.className="feedback";f.innerHTML="";});}
+function checkQuiz(){
+ let score=0;
+ quizData.forEach((x,i)=>{const sel=document.querySelector(`input[name="quiz${i}"]:checked`);const f=document.getElementById(`quizfb${i}`);const correct=sel && Number(sel.value)===x.a;if(correct)score++;f.className="feedback "+(correct?"good":"bad");f.innerHTML=`<b>${!sel?"Unanswered":correct?"Correct":"Incorrect"}.</b> Correct answer: ${String.fromCharCode(65+x.a)}. ${x.o[x.a]}<br>${x.e}`;});
+ document.getElementById("quizScore").textContent=`Score: ${score}/10 (${score*10}%).`;
+}
+function resetQuiz(){document.getElementById("quizForm").reset();document.getElementById("quizScore").textContent="";quizData.forEach((x,i)=>{const f=document.getElementById(`quizfb${i}`);f.className="feedback";f.innerHTML="";});}
+renderQuestions(gateData,"gateQuestions","gate",true);
+renderQuestions(quizData,"quizQuestions","quiz",false);
+</script>
+</body>
+</html>
